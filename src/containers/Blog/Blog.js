@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import Posts from './Posts/Posts';
-import { Route, Link } from 'react-router-dom';
-import NewPost from './NewPost/NewPost';
+import { Route, NavLink, Switch } from 'react-router-dom';
+
 import './Blog.css';
+import Posts from './Posts/Posts';
+import NewPost from './NewPost/NewPost';
+import FullPost from './FullPost/FullPost';
 
 class Blog extends Component {
     
@@ -12,19 +14,29 @@ class Blog extends Component {
                 <header>
                     <nav>
                         <ul>
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to={{
+                            <li><NavLink
+                                to="/"
+                                exact
+                                activeClassName="active"
+                                activeStyle={{
+                                    color: '#fa932f',
+                                    textDecoration: 'underline'
+                                }}>Home</NavLink></li>
+                            <li><NavLink to={{
                                 pathname: '/new-post',
                                 hash: '#submit',
                                 search: '?quick-submit=true',
-                            }}>New Post</Link></li>
+                            }}>New Post</NavLink></li>
                         </ul>
                     </nav>
                 </header>
                 {/* <Route exact path="/" render={() => <h1>Home</h1>} />
                 <Route exact path="/" render={() => <h1>Home 2</h1>} /> */}
-                <Route exact path="/" component={Posts}/>
-                <Route path="/new-post" component={NewPost}/>
+                <Switch>
+                    <Route exact path="/" component={Posts}/>
+                    <Route path="/new-post" component={NewPost}/>
+                    <Route exact path="/:id" component={FullPost}/>
+                </Switch>
             </div>
         );
     }
